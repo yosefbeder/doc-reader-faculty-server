@@ -57,7 +57,7 @@ export default class ModuleController {
       if (!user || user.role !== UserRole.Admin) return unauthorized(res, "Unauthorized cannot create a module.")
       
       const findModule = await db.module.findFirst({
-        where: { yearId, name: parsedBody.data.name }
+        where: { yearId, name: parsedBody.data.name, semesterName: parsedBody.data.semesterName }
       })
       if (findModule) return conflict(res, "Module already exists.")
       
@@ -207,6 +207,7 @@ export default class ModuleController {
         where: { 
           yearId, 
           name: parsedBody.data.name,
+          semesterName: parsedBody.data.semesterName,
           AND: [
             { id: { not: moduleId } }
           ]
